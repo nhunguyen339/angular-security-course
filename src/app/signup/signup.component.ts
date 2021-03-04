@@ -11,6 +11,14 @@ export class SignupComponent implements OnInit {
 
     form:FormGroup;
 
+    errors = [];
+
+    messagePerErrorCode = {
+        min: 'Minimum length 8',
+        uppercase: 'Must have uppercase letters',
+        digits: 'Must have at least 2 digits'
+    }
+
     constructor(private fb: FormBuilder, private authService: AuthService) {
 
         this.form = this.fb.group({
@@ -29,13 +37,14 @@ export class SignupComponent implements OnInit {
 
     signUp() {
         const val = this.form.value;
+        this.errors = [];
 
         if (val.email && val.password && val.password === val.confirm) {
 
             this.authService.signUp(val.email, val.password)
                 .subscribe(
                     () => console.log("User created successfully"),
-                    console.error
+                    response => this.errors = response.error.errors
                 );
 
         }
