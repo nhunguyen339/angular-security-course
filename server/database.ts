@@ -34,8 +34,6 @@ class InMemoryDatabase {
 
         USERS[id] = user;
 
-        console.log(USERS);
-
         return user;
     }
 
